@@ -1,28 +1,64 @@
-== README
+# Steps - Rails API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Set up a new Rails app
+```
+rails new notes-api
+```
+1. Delete the views layer from rails with rm -rf notes-api/app/views
+2. Remove all frontend gems (sass, coffeescript, jquery, turbolinks, etc.)
+3. Bundle install
 
-Things you may want to cover:
+## Migrate & Seed
+1. Create a table for Notes. They should have a body & title attribute.
+2. Seed the database with a few notes.
 
-* Ruby version
+## Routes, Controller.... Action!
+Set up a route for notes. It should have a notes controller with an index action that returns JSON.
 
-* System dependencies
+This is an example index action. Notice the use of render json.
+```
+def index
+  @notes = Note.all
+  render json: @notes
+end
+```
+On create and delete actions, use ...
+```
+render json: { note: @note }
+```
 
-* Configuration
+## Install Postman in Chrome to test this out.
+https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en
 
-* Database creation
+## Other actions
+This API should respond to get, post, delete, etc. Set up actions for create, show, update, & destroy.
 
-* Database initialization
+##Rack Cors
+1. Install the Rack Cors gem so other apps can read from the API we build.
+```
+gem 'rack-cors', :require => 'rack/cors'
+```
+2. Add Rack Cors config in config/application.rb. It should look something like this.
+```
+class Application < Rails::Application
+  config.middleware.insert_before 0, "Rack::Cors" do
+    allow do
+      origins '*'
+      resource '*', :headers => :any, :methods => [:get, :post, :options, :delete]
+    end
+  end
+end
+```
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+## Active Model Serializers
+Ember expects data from an API to look a certain way. To finesse the data to our likeing in Rails, you can configure an Active Model Serializer.
+```
+gem 'active_model_serializers', '~> 0.9.1'
+```
+Add this initializer code in config/initializers/active_model_serializers.rb
+```
+ActiveModel::Serializer.setup do |config|
+  config.embed = :ids
+  config.embed_in_root = true
+end
+```
