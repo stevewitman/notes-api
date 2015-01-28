@@ -18,7 +18,7 @@ class NotesController < ApplicationController
   def create
     @note = Note.new(note_params)
     if @note.save
-      render json: @note
+      render json: { note: @note }
     end
   end
 
@@ -30,7 +30,7 @@ class NotesController < ApplicationController
 
   def destroy
     @note.destroy
-    render json: @note
+    render json: { note: @note }
   end
 
   private # ******************************************************************
