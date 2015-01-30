@@ -22,10 +22,6 @@ def index
   render json: @notes
 end
 ```
-On create and delete actions, use ...
-```
-render json: { note: @note }
-```
 
 ## Install Postman in Chrome to test this out.
 https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en
@@ -35,6 +31,7 @@ This API should respond to get, post, delete, etc. Set up actions for create, sh
 
 ##Rack Cors
 1. Install the Rack Cors gem so other apps can read from the API we build.
+https://github.com/cyu/rack-cors
 ```
 gem 'rack-cors', :require => 'rack/cors'
 ```
